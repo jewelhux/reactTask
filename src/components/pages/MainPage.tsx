@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SearchComponent } from './common/SearchComponent';
 import { IMainState } from '../utils/interfaces';
 import { CardComponent } from './common/CardComponent';
 import { HeadProps } from '../utils/type';
@@ -25,6 +26,7 @@ export class MainPage extends Component<HeadProps, IMainState> {
   render() {
     return (
       <div>
+        <SearchComponent />
         <div className="product-list">
           {this.state.loading ? (
             <LoaderComponent />
