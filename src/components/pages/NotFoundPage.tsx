@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export function NotFoundPage() {
-  return <div>Ошибка 404</div>;
+export class NotFoundPage extends Component {
+  render() {
+    return <h2>Current page: 404 page</h2>;
+  }
 }

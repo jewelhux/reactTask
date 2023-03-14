@@ -26,6 +26,7 @@ export class MainPage extends Component<HeadProps, IMainState> {
   render() {
     return (
       <div>
+        <h2>Current page: MainPage</h2>
         <SearchComponent />
         <div className="product-list">
           {this.state.loading ? (

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export function AboutPage() {
-  return <div>AboutPage</div>;
+export class AboutPage extends Component {
+  render() {
+    return <h2>Current page: AboutPage</h2>;
+  }
 }
