@@ -4,6 +4,7 @@ import { IMainState } from '../utils/interfaces';
 import { CardComponent } from './common/CardComponent';
 import { HeadProps } from '../utils/type';
 import { LoaderComponent } from './common/LoaderComponent';
+import { DATA_LIST } from '../utils/DATA';
 
 export class MainPage extends Component<HeadProps, IMainState> {
   constructor(props: HeadProps) {
@@ -13,13 +14,10 @@ export class MainPage extends Component<HeadProps, IMainState> {
       loading: true,
       searchInput: props.searchInput,
     };
-    console.log(props);
   }
 
   async componentDidMount() {
-    const response = await fetch('https://fakestoreapi.com/products?limit=15');
-    const productList = await response.json();
-
+    const productList = DATA_LIST;
     this.setState({ products: productList, loading: false });
   }
 

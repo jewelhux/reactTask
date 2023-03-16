@@ -2,6 +2,10 @@ interface IHeadInput {
   searchInput: string;
 }
 
+interface IAddProduct {
+  titleName: string;
+}
+
 interface IProduct {
   id: number;
   title: string;
@@ -16,4 +20,4 @@ interface IMainState {
   searchInput: string;
 }
 
-export type { IHeadInput, IMainState, IProduct };
+export type { IHeadInput, IMainState, IProduct, IAddProduct };
