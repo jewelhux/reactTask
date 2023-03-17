@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
 import { HeadProps } from '../utils//type';
 import { IAddProduct } from '../utils/interfaces';
+import { CardComponent } from './common/CardComponent';
 
 export class FormPage extends Component<HeadProps, IAddProduct> {
+  inputTitleRef: React.RefObject<HTMLInputElement>;
+
   constructor(props: HeadProps) {
     super(props);
     this.state = {
-      titleName: '',
+      id: Math.trunc(Math.random() * 1e8),
+      title: '1',
+      description: '1',
+      image: '1',
+      price: 999,
+      products: [],
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ titleName: event.target.value });
+    this.inputTitleRef = React.createRef();
   }
 
   handleSubmit(event: { preventDefault: () => void }) {
-    console.log(this.state.titleName);
+    const product = {
+      id: Math.trunc(Math.random() * 1e8),
+      title: this.inputTitleRef?.current?.value ?? '',
+      description: '1',
+      image: '1',
+      price: 999,
+    };
+
+    this.setState((prevState) => ({
+      products: [...prevState.products, product],
+    }));
+
     event.preventDefault();
   }
 
@@ -27,15 +42,15 @@ export class FormPage extends Component<HeadProps, IAddProduct> {
         <h2>Current page: FormPage</h2>
         <form className="search-bar" onSubmit={this.handleSubmit}>
           <label>
-            <input
-              type="text"
-              placeholder="Input name Card"
-              value={this.state.titleName}
-              onChange={this.handleChange}
-            ></input>
+            <input type="text" placeholder="Input name Card" ref={this.inputTitleRef} />
           </label>
           <input type="submit" value="Add card" />
         </form>
+        <div className="product-list">
+          {this.state.products?.map((product) => (
+            <CardComponent key={product.id} product={product} />
+          ))}
+        </div>
       </>
     );
   }

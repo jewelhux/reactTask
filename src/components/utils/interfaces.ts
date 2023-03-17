@@ -3,7 +3,12 @@ interface IHeadInput {
 }
 
 interface IAddProduct {
-  titleName: string;
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  products: IProduct[];
 }
 
 interface IProduct {

@@ -41,3 +41,7 @@
   height: 100px;
   overflow: hidden;
 }
+
+.form-add-btn {
+  margin-top: 10px;
+}
