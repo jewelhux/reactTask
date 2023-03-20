@@ -2,27 +2,24 @@ interface IHeadInput {
   searchInput: string;
 }
 
-interface IAddProduct {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  price: number;
-  products: IProduct[];
+interface IProducts {
+  products: ICard[];
 }
 
-interface IProduct {
-  id: number;
+interface ICard {
+  id?: number;
   title: string;
-  description: string;
   image: string;
-  price: number;
+  date: string;
+  rules: boolean;
+  condition: string;
+  category: string;
 }
 
 interface IMainState {
-  products: IProduct[];
+  products: ICard[];
   loading: boolean;
   searchInput: string;
 }
 
-export type { IHeadInput, IMainState, IProduct, IAddProduct };
+export type { IHeadInput, IMainState, ICard, IProducts };

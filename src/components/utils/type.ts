@@ -1,9 +1,13 @@
-import { IProduct } from './interfaces';
+import { ICard } from './interfaces';
 
 type HeadProps = Record<string, never>;
 
-type ProductProps = {
-  product: IProduct;
+type FormAddProps = {
+  onAddCard: (newCard: ICard) => void;
 };
 
-export type { HeadProps, ProductProps };
+type ProductProps = {
+  product: ICard;
+};
+
+export type { HeadProps, ProductProps, FormAddProps };

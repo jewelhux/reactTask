@@ -45,3 +45,19 @@
 .form-add-btn {
   margin-top: 10px;
 }
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-element {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.radio-element {
+  display: flex;
+  align-items: center;
+}
