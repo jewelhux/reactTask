@@ -61,3 +61,8 @@
   display: flex;
   align-items: center;
 }
+
+.color-red {
+  color: red;
+  font-weight: 700;
+}

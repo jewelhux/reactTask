@@ -16,10 +16,20 @@ interface ICard {
   category: string;
 }
 
+interface IFormValid {
+  titleValid: boolean;
+  imageValid: boolean;
+  dateValid: boolean;
+  rulesValid: boolean;
+  conditionValid: boolean;
+  categoryValid: boolean;
+  message: boolean;
+}
+
 interface IMainState {
   products: ICard[];
   loading: boolean;
   searchInput: string;
 }
 
-export type { IHeadInput, IMainState, ICard, IProducts };
+export type { IHeadInput, IMainState, ICard, IProducts, IFormValid };
