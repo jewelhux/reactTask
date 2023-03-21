@@ -19,6 +19,7 @@ interface ICard {
 interface IFormValid {
   titleValid: boolean;
   imageValid: boolean;
+  imageUrl: string;
   dateValid: boolean;
   rulesValid: boolean;
   conditionValid: boolean;
