@@ -36,19 +36,13 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     if (this.inputTitleRef.current) this.inputTitleRef.current.value = '';
   }
 
-  handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      this.setState({ imageUrl: URL.createObjectURL(event.target.files[0]) });
-    }
-  };
-
   handleSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
     const isAllValid = this.checkAllValidates();
 
     // Variables
     const currentTitle = this.inputTitleRef?.current?.value ?? '';
-    const currentImage = this.inputImageRef?.current?.value ?? '';
+    const currentImage = this.inputImageRef.current?.files?.[0];
 
     if (!isAllValid) {
       this.setState({ message: true });
@@ -58,7 +52,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     const product = {
       id: Math.trunc(Math.random() * 1e8),
       title: currentTitle,
-      image: currentImage,
+      image: (currentImage && URL.createObjectURL(currentImage)) ?? '',
       date: '12.12.2000',
       rules: false,
       condition: 'old',
@@ -81,11 +75,6 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
   render() {
     return (
       <form className="search-bar form-card" onSubmit={this.handleSubmit}>
-        {!this.state.titleValid && this.state.message && (
-          <div className="img-container">
-            <img src={this.state.imageUrl} alt="card-img" />
-          </div>
-        )}
         <label className="form-element">
           <span>Name:</span>
           <input type="text" ref={this.inputTitleRef} />
@@ -99,7 +88,6 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
             type="file"
             accept="image/jpeg,image/png,image/gif"
             id="image-input"
-            onInput={this.handleImageInput}
             ref={this.inputImageRef}
           />
         </label>

@@ -5,15 +5,12 @@ import { CardComponent } from './common/CardComponent';
 import { FormInputComponnent } from './FormComponent/FormInputComponent';
 
 export class FormPage extends Component<HeadProps, IProducts> {
-  inputTitleRef: React.RefObject<HTMLInputElement>;
-
   constructor(props: HeadProps) {
     super(props);
     this.state = {
       products: [],
     };
     this.onAddCard = this.onAddCard.bind(this);
-    this.inputTitleRef = React.createRef();
   }
 
   onAddCard(newCard: ICard) {

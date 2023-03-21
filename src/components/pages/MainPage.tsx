@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { SearchComponent } from './common/SearchComponent';
 import { IMainState } from '../utils/interfaces';
-import { CardComponent } from './common/CardComponent';
 import { HeadProps } from '../utils/type';
 import { LoaderComponent } from './common/LoaderComponent';
 import { DATA_LIST } from '../utils/DATA';
+import { CardComponent } from './common/CardComponent';
 
 export class MainPage extends Component<HeadProps, IMainState> {
   constructor(props: HeadProps) {

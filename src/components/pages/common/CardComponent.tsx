@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ProductProps } from '../../utils//type';
+import { ProductProps } from '../../utils/type';
 
 export class CardComponent extends Component<ProductProps> {
   constructor(props: ProductProps) {
