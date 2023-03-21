@@ -3,4 +3,9 @@ const validateName = (name: string) => {
   return false;
 };
 
-export { validateName };
+const validateImage = (name: string) => {
+  if (name.length === 0) return false;
+  return true;
+};
+
+export { validateName, validateImage };

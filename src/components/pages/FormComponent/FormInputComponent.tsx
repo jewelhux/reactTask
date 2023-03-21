@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormAddProps } from '../../utils//type';
 import { IFormValid } from '../../utils/interfaces';
-import { validateName } from '../../utils/validates';
+import { validateImage, validateName } from '../../utils/validates';
 
 export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
   inputTitleRef: React.RefObject<HTMLInputElement>;
@@ -26,14 +26,17 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
 
   checkAllValidates() {
     const title = validateName(this.inputTitleRef?.current?.value ?? '');
+    const image = validateImage(this.inputImageRef?.current?.value ?? '');
     this.setState({ titleValid: title });
+    this.setState({ imageValid: image });
 
-    if (title) return true;
+    if (title && image) return true;
     return false;
   }
 
   clearForms() {
     if (this.inputTitleRef.current) this.inputTitleRef.current.value = '';
+    if (this.inputImageRef.current) this.inputImageRef.current.value = '';
   }
 
   handleSubmit(event: { preventDefault: () => void }) {
@@ -41,7 +44,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     const isAllValid = this.checkAllValidates();
 
     // Variables
-    const currentTitle = this.inputTitleRef?.current?.value ?? '';
+    const currentTitle = this.inputTitleRef.current?.value ?? '';
     const currentImage = this.inputImageRef.current?.files?.[0];
 
     if (!isAllValid) {
@@ -61,7 +64,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
 
     this.setState({
       titleValid: validateName(currentTitle),
-      imageValid: false,
+      imageValid: validateImage(this.inputImageRef?.current?.value ?? ''),
       dateValid: false,
       rulesValid: false,
       conditionValid: false,
@@ -84,12 +87,10 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
         </label>
         <label className="form-element">
           <span>Image:</span>
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/gif"
-            id="image-input"
-            ref={this.inputImageRef}
-          />
+          <input type="file" accept=".jpg, .jpeg, .png" id="image-input" ref={this.inputImageRef} />
+          {!this.state.imageValid && this.state.message && (
+            <span className="color-red">Invalid data</span>
+          )}
         </label>
         <label className="form-element">
           <span>Date:</span>

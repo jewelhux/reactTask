@@ -8,7 +8,6 @@ export class CardComponent extends Component<ProductProps> {
 
   render() {
     const item = this.props.product;
-    console.log(item.image);
     return (
       <div className="item-card">
         <h2>{item.title}</h2>
