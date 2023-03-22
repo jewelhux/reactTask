@@ -8,4 +8,14 @@ const validateImage = (name: string) => {
   return true;
 };
 
-export { validateName, validateImage };
+const validateDate = (name: string) => {
+  const inputDate = new Date(name);
+  const currentDate = new Date();
+
+  if (inputDate > currentDate) {
+    return true;
+  }
+  return false;
+};
+
+export { validateName, validateImage, validateDate };

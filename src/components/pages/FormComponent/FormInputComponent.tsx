@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { FormAddProps } from '../../utils//type';
 import { IFormValid } from '../../utils/interfaces';
-import { validateImage, validateName } from '../../utils/validates';
+import { validateDate, validateImage, validateName } from '../../utils/validates';
 
 export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
   inputTitleRef: React.RefObject<HTMLInputElement>;
   inputImageRef: React.RefObject<HTMLInputElement>;
+  inputDateRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: FormAddProps) {
     super(props);
@@ -22,13 +23,16 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.inputTitleRef = React.createRef();
     this.inputImageRef = React.createRef();
+    this.inputDateRef = React.createRef();
   }
 
   checkAllValidates() {
     const title = validateName(this.inputTitleRef?.current?.value ?? '');
     const image = validateImage(this.inputImageRef?.current?.value ?? '');
+    const date = validateDate(this.inputDateRef.current?.value ?? '');
     this.setState({ titleValid: title });
     this.setState({ imageValid: image });
+    this.setState({ dateValid: date });
 
     if (title && image) return true;
     return false;
@@ -37,6 +41,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
   clearForms() {
     if (this.inputTitleRef.current) this.inputTitleRef.current.value = '';
     if (this.inputImageRef.current) this.inputImageRef.current.value = '';
+    if (this.inputDateRef.current) this.inputDateRef.current.value = '';
   }
 
   handleSubmit(event: { preventDefault: () => void }) {
@@ -46,6 +51,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     // Variables
     const currentTitle = this.inputTitleRef.current?.value ?? '';
     const currentImage = this.inputImageRef.current?.files?.[0];
+    const currentDate = this.inputDateRef.current?.value ?? '';
 
     if (!isAllValid) {
       this.setState({ message: true });
@@ -56,7 +62,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
       id: Math.trunc(Math.random() * 1e8),
       title: currentTitle,
       image: (currentImage && URL.createObjectURL(currentImage)) ?? '',
-      date: '12.12.2000',
+      date: currentDate,
       rules: false,
       condition: 'old',
       category: 'car',
@@ -65,7 +71,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     this.setState({
       titleValid: validateName(currentTitle),
       imageValid: validateImage(this.inputImageRef?.current?.value ?? ''),
-      dateValid: false,
+      dateValid: validateDate(currentDate),
       rulesValid: false,
       conditionValid: false,
       categoryValid: false,
@@ -93,8 +99,11 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
           )}
         </label>
         <label className="form-element">
-          <span>Date:</span>
-          <input type="date" />
+          <span>Start of sales:</span>
+          <input type="date" ref={this.inputDateRef} />
+          {!this.state.dateValid && this.state.message && (
+            <span className="color-red">Invalid data</span>
+          )}
         </label>
         {/* <label className="form-element">
           <span>Category:</span>
