@@ -18,4 +18,9 @@ const validateDate = (name: string) => {
   return false;
 };
 
-export { validateName, validateImage, validateDate };
+const validateCondition = (name: string) => {
+  if (name.length === 0) return false;
+  return true;
+};
+
+export { validateName, validateImage, validateDate, validateCondition };
