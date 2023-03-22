@@ -15,6 +15,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
   inputDateRef: React.RefObject<HTMLInputElement>;
   inputСonditionRefNew: React.RefObject<HTMLInputElement>;
   inputСonditionRefOld: React.RefObject<HTMLInputElement>;
+  inputRulesRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: FormAddProps) {
     super(props);
@@ -34,6 +35,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     this.inputDateRef = React.createRef();
     this.inputСonditionRefNew = React.createRef();
     this.inputСonditionRefOld = React.createRef();
+    this.inputRulesRef = React.createRef();
   }
 
   checkAllValidates() {
@@ -43,13 +45,15 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     const condition = validateCondition(
       targetRadio(this.inputСonditionRefNew, this.inputСonditionRefOld)
     );
+    const rules = this.inputRulesRef?.current?.checked ?? false;
 
     this.setState({ titleValid: title });
     this.setState({ imageValid: image });
     this.setState({ dateValid: date });
     this.setState({ conditionValid: condition });
+    this.setState({ rulesValid: rules });
 
-    if (title && image && date && condition) return true;
+    if (title && image && date && condition && rules) return true;
     return false;
   }
 
@@ -59,6 +63,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     if (this.inputDateRef.current) this.inputDateRef.current.value = '';
     if (this.inputСonditionRefNew.current) this.inputСonditionRefNew.current.checked = false;
     if (this.inputСonditionRefOld.current) this.inputСonditionRefOld.current.checked = false;
+    if (this.inputRulesRef.current) this.inputRulesRef.current.checked = false;
   }
 
   handleSubmit(event: { preventDefault: () => void }) {
@@ -70,6 +75,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     const currentImage = this.inputImageRef.current?.files?.[0];
     const currentDate = this.inputDateRef.current?.value ?? '';
     const currentCondition = targetRadio(this.inputСonditionRefNew, this.inputСonditionRefOld);
+    const currentRules = this.inputRulesRef?.current?.checked ?? false;
 
     if (!isAllValid) {
       this.setState({ message: true });
@@ -83,7 +89,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
       date: currentDate,
       condition: currentCondition,
       category: 'car',
-      rules: false,
+      rules: currentRules,
     };
 
     this.setState({
@@ -92,7 +98,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
       dateValid: validateDate(currentDate),
       conditionValid: validateCondition(currentCondition),
       categoryValid: false,
-      rulesValid: false,
+      rulesValid: currentRules,
     });
 
     this.clearForms();
@@ -147,7 +153,10 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
         </div>
         <label className="form-element">
           <span>Rules accept:</span>
-          <input type="checkbox" />
+          <input type="checkbox" ref={this.inputRulesRef} />
+          {!this.state.rulesValid && this.state.message && (
+            <span className="color-red">Invalid data</span>
+          )}
         </label>
         <button type="submit">Add new card</button>
       </form>
