@@ -3,6 +3,7 @@ import { FormAddProps } from '../../utils//type';
 import { IFormValid } from '../../utils/interfaces';
 import { targetRadio } from '../../utils/utils';
 import {
+  validateCategory,
   validateCondition,
   validateDate,
   validateImage,
@@ -16,6 +17,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
   inputСonditionRefNew: React.RefObject<HTMLInputElement>;
   inputСonditionRefOld: React.RefObject<HTMLInputElement>;
   inputRulesRef: React.RefObject<HTMLInputElement>;
+  inputCategoryRef: React.RefObject<HTMLSelectElement>;
 
   constructor(props: FormAddProps) {
     super(props);
@@ -36,6 +38,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     this.inputСonditionRefNew = React.createRef();
     this.inputСonditionRefOld = React.createRef();
     this.inputRulesRef = React.createRef();
+    this.inputCategoryRef = React.createRef();
   }
 
   checkAllValidates() {
@@ -46,12 +49,15 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
       targetRadio(this.inputСonditionRefNew, this.inputСonditionRefOld)
     );
     const rules = this.inputRulesRef?.current?.checked ?? false;
+    const category = validateCategory(this.inputCategoryRef.current?.value ?? '');
 
+    this.setState({ rulesValid: rules });
     this.setState({ titleValid: title });
     this.setState({ imageValid: image });
     this.setState({ dateValid: date });
     this.setState({ conditionValid: condition });
     this.setState({ rulesValid: rules });
+    this.setState({ categoryValid: category });
 
     if (title && image && date && condition && rules) return true;
     return false;
@@ -64,6 +70,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     if (this.inputСonditionRefNew.current) this.inputСonditionRefNew.current.checked = false;
     if (this.inputСonditionRefOld.current) this.inputСonditionRefOld.current.checked = false;
     if (this.inputRulesRef.current) this.inputRulesRef.current.checked = false;
+    if (this.inputCategoryRef.current) this.inputCategoryRef.current.value = '';
   }
 
   handleSubmit(event: { preventDefault: () => void }) {
@@ -76,6 +83,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     const currentDate = this.inputDateRef.current?.value ?? '';
     const currentCondition = targetRadio(this.inputСonditionRefNew, this.inputСonditionRefOld);
     const currentRules = this.inputRulesRef?.current?.checked ?? false;
+    const currentCategory = this.inputCategoryRef.current?.value ?? '';
 
     if (!isAllValid) {
       this.setState({ message: true });
@@ -88,7 +96,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
       image: (currentImage && URL.createObjectURL(currentImage)) ?? '',
       date: currentDate,
       condition: currentCondition,
-      category: 'car',
+      category: currentCategory,
       rules: currentRules,
     };
 
@@ -97,7 +105,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
       imageValid: validateImage(this.inputImageRef?.current?.value ?? ''),
       dateValid: validateDate(currentDate),
       conditionValid: validateCondition(currentCondition),
-      categoryValid: false,
+      categoryValid: validateCategory(currentCategory),
       rulesValid: currentRules,
     });
 
@@ -112,31 +120,34 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
           <span>Name:</span>
           <input type="text" ref={this.inputTitleRef} />
           {!this.state.titleValid && this.state.message && (
-            <span className="color-red">Invalid data</span>
+            <span className="color-red">Error! The length must be at least 5 characters!</span>
           )}
         </label>
         <label className="form-element">
           <span>Image:</span>
           <input type="file" accept=".jpg, .jpeg, .png" id="image-input" ref={this.inputImageRef} />
           {!this.state.imageValid && this.state.message && (
-            <span className="color-red">Invalid data</span>
+            <span className="color-red">Error! Image not selected!</span>
           )}
         </label>
         <label className="form-element">
           <span>Start of sales:</span>
           <input type="date" ref={this.inputDateRef} />
           {!this.state.dateValid && this.state.message && (
-            <span className="color-red">Invalid data</span>
+            <span className="color-red">Error! The date should be no earlier than tomorrow!</span>
           )}
         </label>
-        {/* <label className="form-element">
+        <label className="form-element">
           <span>Category:</span>
-          <select type="select">
+          <select ref={this.inputCategoryRef}>
+            <option value="">-</option>
             <option value="car">car</option>
             <option value="home">home</option>
-            <option value="clothes">clothes</option>
           </select>
-        </label> */}
+          {!this.state.categoryValid && this.state.message && (
+            <span className="color-red">Error! You need to choose car or home!</span>
+          )}
+        </label>
         <div className="form-element">
           <span>Condition:</span>
           <label className="radio-element">
@@ -148,14 +159,14 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
             Old
           </label>
           {!this.state.conditionValid && this.state.message && (
-            <span className="color-red">Invalid data</span>
+            <span className="color-red">Error! You need to choose new or old!</span>
           )}
         </div>
         <label className="form-element">
           <span>Rules accept:</span>
           <input type="checkbox" ref={this.inputRulesRef} />
           {!this.state.rulesValid && this.state.message && (
-            <span className="color-red">Invalid data</span>
+            <span className="color-red">Error! It is necessary to adopt the rules!</span>
           )}
         </label>
         <button type="submit">Add new card</button>

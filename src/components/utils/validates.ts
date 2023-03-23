@@ -23,4 +23,9 @@ const validateCondition = (name: string) => {
   return true;
 };
 
-export { validateName, validateImage, validateDate, validateCondition };
+const validateCategory = (name: string) => {
+  if (name.length === 0) return false;
+  return true;
+};
+
+export { validateName, validateImage, validateDate, validateCondition, validateCategory };
