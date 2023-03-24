@@ -117,29 +117,29 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
     return (
       <form className="search-bar form-card" onSubmit={this.handleSubmit}>
         <label className="form-element">
-          <span>Name:</span>
+          Title
           <input type="text" ref={this.inputTitleRef} />
           {!this.state.titleValid && this.state.message && (
             <span className="color-red">Error! The length must be at least 5 characters!</span>
           )}
         </label>
         <label className="form-element">
-          <span>Image:</span>
+          Image
           <input type="file" accept=".jpg, .jpeg, .png" id="image-input" ref={this.inputImageRef} />
           {!this.state.imageValid && this.state.message && (
             <span className="color-red">Error! Image not selected!</span>
           )}
         </label>
         <label className="form-element">
-          <span>Start of sales:</span>
+          Start of sales
           <input type="date" ref={this.inputDateRef} />
           {!this.state.dateValid && this.state.message && (
             <span className="color-red">Error! The date should be no earlier than tomorrow!</span>
           )}
         </label>
         <label className="form-element">
-          <span>Category:</span>
-          <select ref={this.inputCategoryRef}>
+          Category
+          <select ref={this.inputCategoryRef} data-testid="category-select-input">
             <option value="">-</option>
             <option value="car">car</option>
             <option value="home">home</option>
@@ -149,9 +149,15 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
           )}
         </label>
         <div className="form-element">
-          <span>Condition:</span>
+          Condition
           <label className="radio-element">
-            <input type="radio" name="condition" value="New" ref={this.inputСonditionRefNew} />
+            <input
+              type="radio"
+              name="condition"
+              value="New"
+              ref={this.inputСonditionRefNew}
+              data-testid="rule-input"
+            />
             New
           </label>
           <label className="radio-element">
@@ -163,7 +169,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
           )}
         </div>
         <label className="form-element">
-          <span>Rules accept:</span>
+          Rules accept
           <input type="checkbox" ref={this.inputRulesRef} />
           {!this.state.rulesValid && this.state.message && (
             <span className="color-red">Error! It is necessary to adopt the rules!</span>

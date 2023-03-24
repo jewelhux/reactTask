@@ -1,5 +1,5 @@
 import React, { RefObject } from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
@@ -14,6 +14,8 @@ import {
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { targetRadio } from './components/utils/utils';
+import { fn } from 'jest-mock';
+import { FormInputComponnent } from './components/pages/FormComponent/FormInputComponent';
 
 const unmockedFetch = global.fetch;
 
@@ -135,6 +137,19 @@ describe('App', () => {
       );
 
       expect(result).toBe('2');
+    });
+  });
+
+  it('form input', async () => {
+    await act(() => {
+      const onAddCard = fn();
+      window.URL.createObjectURL = jest.fn((file) => (file instanceof File && file.name) || '');
+      const { getByLabelText } = render(<FormInputComponnent onAddCard={onAddCard} />);
+
+      fireEvent.change(getByLabelText(/Title/i), { target: { value: 'New Product' } });
+      const file = new File(['LOL'], 'fakeImage', { type: 'image/png' });
+      fireEvent.change(getByLabelText(/Image/i), { target: { files: [file] } });
+      fireEvent.change(getByLabelText(/Start of sales/i), { target: { value: '2024-12-12' } });
     });
   });
 });
