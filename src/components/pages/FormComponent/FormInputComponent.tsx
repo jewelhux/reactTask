@@ -125,7 +125,7 @@ export class FormInputComponent extends Component<FormAddProps, IFormValid> {
         </label>
         <label className="form-element">
           Image
-          <input type="file" accept=".jpg, .jpeg, .png" id="image-input" ref={this.inputImageRef} />
+          <input type="file" accept=".jpg, .jpeg, .png" ref={this.inputImageRef} />
           {!this.state.imageValid && this.state.message && (
             <span className="color-red">Error! Image not selected!</span>
           )}
@@ -139,7 +139,7 @@ export class FormInputComponent extends Component<FormAddProps, IFormValid> {
         </label>
         <label className="form-element">
           Category
-          <select ref={this.inputCategoryRef} data-testid="category-select-input">
+          <select ref={this.inputCategoryRef}>
             <option value="">-</option>
             <option value="car">car</option>
             <option value="home">home</option>
@@ -151,13 +151,7 @@ export class FormInputComponent extends Component<FormAddProps, IFormValid> {
         <div className="form-element">
           Condition
           <label className="radio-element">
-            <input
-              type="radio"
-              name="condition"
-              value="New"
-              ref={this.inputСonditionRefNew}
-              data-testid="rule-input"
-            />
+            <input type="radio" name="condition" value="New" ref={this.inputСonditionRefNew} />
             New
           </label>
           <label className="radio-element">

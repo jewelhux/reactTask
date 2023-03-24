@@ -147,7 +147,7 @@ describe('App', () => {
     });
   });
 
-  test('should not call onChangeProduct in submitted', () => {
+  test('tesing abother', () => {
     const onAddCard = fn();
     const { getByLabelText, getByText } = render(<FormInputComponent onAddCard={onAddCard} />);
 
