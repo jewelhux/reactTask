@@ -1,35 +1,24 @@
 import React, { RefObject } from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import App from './App';
+import App from '../App';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { CardComponent } from './components/pages/common/CardComponent';
+import { CardComponent } from '../components/pages/common/CardComponent';
 import {
   validateCategory,
   validateCondition,
   validateDate,
   validateImage,
   validateName,
-} from './components/utils/validates';
-import { NotFoundPage } from './components/pages/NotFoundPage';
-import { AboutPage } from './components/pages/AboutPage';
-import { targetRadio } from './components/utils/utils';
+} from '../components/utils/validates';
+import { NotFoundPage } from '../components/pages/NotFoundPage';
+import { AboutPage } from '../components/pages/AboutPage';
+import { targetRadio } from '../components/utils/utils';
 import { fn } from 'jest-mock';
-import { FormInputComponent } from './components/pages/FormComponent/FormInputComponent';
-import { FormPage } from './components/pages/FormPage';
-
-const unmockedFetch = global.fetch;
-
-beforeAll(() => {
-  global.fetch = () =>
-    Promise.resolve({
-      json: () => Promise.resolve([]),
-    } as Response);
-});
-
-afterAll(() => {
-  global.fetch = unmockedFetch;
-});
+import { FormInputComponent } from '../components/pages/FormComponent/FormInputComponent';
+import { FormPage } from '../components/pages/FormPage';
+import { SearchComponent } from '../components/pages/common/SearchComponent';
+import { LoaderComponent } from '../components/pages/common/LoaderComponent';
 
 describe('App', () => {
   it('all page', async () => {
@@ -141,13 +130,21 @@ describe('App', () => {
     });
   });
 
-  it('FormPage', async () => {
+  it('form page component', async () => {
     await act(() => {
       render(<FormPage />);
     });
   });
 
-  test('tesing abother', () => {
+  test('search component', () => {
+    render(<SearchComponent />);
+  });
+
+  test('loader component', () => {
+    render(<LoaderComponent />);
+  });
+
+  test('form input component', () => {
     const onAddCard = fn();
     const { getByLabelText, getByText } = render(<FormInputComponent onAddCard={onAddCard} />);
 
