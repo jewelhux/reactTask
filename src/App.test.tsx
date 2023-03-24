@@ -15,7 +15,8 @@ import { NotFoundPage } from './components/pages/NotFoundPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { targetRadio } from './components/utils/utils';
 import { fn } from 'jest-mock';
-import { FormInputComponnent } from './components/pages/FormComponent/FormInputComponent';
+import { FormInputComponent } from './components/pages/FormComponent/FormInputComponent';
+import { FormPage } from './components/pages/FormPage';
 
 const unmockedFetch = global.fetch;
 
@@ -140,16 +141,17 @@ describe('App', () => {
     });
   });
 
-  it('form input', async () => {
+  it('FormPage', async () => {
     await act(() => {
-      const onAddCard = fn();
-      window.URL.createObjectURL = jest.fn((file) => (file instanceof File && file.name) || '');
-      const { getByLabelText } = render(<FormInputComponnent onAddCard={onAddCard} />);
-
-      fireEvent.change(getByLabelText(/Title/i), { target: { value: 'New Product' } });
-      const file = new File(['LOL'], 'fakeImage', { type: 'image/png' });
-      fireEvent.change(getByLabelText(/Image/i), { target: { files: [file] } });
-      fireEvent.change(getByLabelText(/Start of sales/i), { target: { value: '2024-12-12' } });
+      render(<FormPage />);
     });
+  });
+
+  test('should not call onChangeProduct in submitted', () => {
+    const onAddCard = fn();
+    const { getByLabelText, getByText } = render(<FormInputComponent onAddCard={onAddCard} />);
+
+    fireEvent.change(getByLabelText(/Title/i), { target: { value: 'New Product' } });
+    fireEvent.submit(getByText(/Submit/i));
   });
 });

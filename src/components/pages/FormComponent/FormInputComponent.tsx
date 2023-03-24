@@ -10,7 +10,7 @@ import {
   validateName,
 } from '../../utils/validates';
 
-export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
+export class FormInputComponent extends Component<FormAddProps, IFormValid> {
   inputTitleRef: React.RefObject<HTMLInputElement>;
   inputImageRef: React.RefObject<HTMLInputElement>;
   inputDateRef: React.RefObject<HTMLInputElement>;
@@ -175,7 +175,7 @@ export class FormInputComponnent extends Component<FormAddProps, IFormValid> {
             <span className="color-red">Error! It is necessary to adopt the rules!</span>
           )}
         </label>
-        <button type="submit">Add new card</button>
+        <button type="submit">Submit</button>
       </form>
     );
   }
