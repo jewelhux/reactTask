@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class LoaderComponent extends Component {
-  render() {
-    return <div className="search-bar">Loading...</div>;
-  }
+export function LoaderComponent() {
+  return <div className="search-bar">Loading...</div>;
 }
