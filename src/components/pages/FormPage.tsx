@@ -1,35 +1,24 @@
-import React, { Component } from 'react';
-import { HeadProps } from '../utils//type';
-import { ICard, IProducts } from '../utils/interfaces';
+import React, { useState } from 'react';
+import { ICard } from '../utils/interfaces';
 import { CardComponent } from './common/CardComponent';
 import { FormInputComponent } from './FormComponent/FormInputComponent';
 
-export class FormPage extends Component<HeadProps, IProducts> {
-  constructor(props: HeadProps) {
-    super(props);
-    this.state = {
-      products: [],
-    };
-    this.onAddCard = this.onAddCard.bind(this);
-  }
+export function FormPage() {
+  const [products, setProducts] = useState<ICard[]>([]);
 
-  onAddCard(newCard: ICard) {
-    this.setState((prevState) => ({
-      products: [...prevState.products, newCard],
-    }));
-  }
+  const onAddCard = (newCard: ICard) => {
+    setProducts([...products, newCard]);
+  };
 
-  render() {
-    return (
-      <>
-        <h2>Current page: FormPage</h2>
-        <FormInputComponent onAddCard={this.onAddCard} />
-        <div className="product-list">
-          {this.state.products?.map((product) => (
-            <CardComponent key={product.id} product={product} />
-          ))}
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <h2>Current page: FormPage</h2>
+      <FormInputComponent onAddCard={onAddCard} />
+      <div className="product-list">
+        {products.map((product) => (
+          <CardComponent key={product.id} product={product} />
+        ))}
+      </div>
+    </>
+  );
 }

@@ -1,41 +1,30 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchComponent } from './common/SearchComponent';
-import { IMainState } from '../utils/interfaces';
-import { HeadProps } from '../utils/type';
+import { ICard } from '../utils/interfaces';
 import { LoaderComponent } from './common/LoaderComponent';
 import { DATA_LIST } from '../utils/DATA';
 import { CardComponent } from './common/CardComponent';
 
-export class MainPage extends Component<HeadProps, IMainState> {
-  constructor(props: HeadProps) {
-    super(props);
-    this.state = {
-      products: [],
-      loading: true,
-      searchInput: props.searchInput,
-    };
-  }
+export function MainPage() {
+  const [products, setProducts] = useState<ICard[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  async componentDidMount() {
-    const productList = DATA_LIST;
-    this.setState({ products: productList, loading: false });
-  }
+  useEffect(() => {
+    setProducts(DATA_LIST);
+    setLoading(false);
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <h2>Current page: MainPage</h2>
-        <SearchComponent />
-        <div className="product-list">
-          {this.state.loading ? (
-            <LoaderComponent />
-          ) : (
-            this.state.products?.map((product) => (
-              <CardComponent key={product.id} product={product} />
-            ))
-          )}
-        </div>
+  return (
+    <div>
+      <h2>Current page: MainPage</h2>
+      <SearchComponent />
+      <div className="product-list">
+        {loading ? (
+          <LoaderComponent />
+        ) : (
+          products.map((product) => <CardComponent key={product.id} product={product} />)
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }

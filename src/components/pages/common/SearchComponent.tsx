@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export function SearchComponent() {
-  const [storage, storageChange] = useState('');
+  const [storage, storageChange] = useState(localStorage.getItem('jikSearch') ?? '');
+  const storageRef = useRef<string>();
 
   useEffect(() => {
-    const startInput = localStorage.getItem('jikSearch') ?? '';
-    if (startInput || startInput === '') {
-      storageChange(startInput);
-    }
+    storageRef.current = storage;
+  }, [storage]);
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('jikSearch', storageRef.current || '');
+    };
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     storageChange(event.target.value);
-    localStorage.setItem('jikSearch', event.target.value);
   };
 
   return (
