@@ -25,7 +25,7 @@ export function FormInputComponent(props: FormAddProps) {
       date: data.inputDate,
       condition: data.inputСondition,
       category: data.inputCategory,
-      rules: false,
+      rules: data.inputRules,
     });
     reset();
   };
