@@ -10,4 +10,21 @@ type ProductProps = {
   product: ICard;
 };
 
-export type { HeadProps, ProductProps, FormAddProps };
+type InputsForm = {
+  inputTitle: string;
+  inputImage: FileList;
+  inputDate: string;
+  inputCategory: string;
+  inputСondition: string;
+  inputRules: boolean;
+};
+
+//     this.inputTitleRef = React.createRef();
+//     this.inputImageRef = React.createRef();
+//     this.inputDateRef = React.createRef();
+//     this.inputСonditionRefNew = React.createRef();
+//     this.inputСonditionRefOld = React.createRef();
+//     this.inputRulesRef = React.createRef();
+//     this.inputCategoryRef = React.createRef();
+
+export type { HeadProps, ProductProps, FormAddProps, InputsForm };
