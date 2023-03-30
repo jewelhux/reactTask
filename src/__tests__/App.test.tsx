@@ -19,6 +19,7 @@ import { FormInputComponent } from '../components/pages/FormComponent/FormInputC
 import { FormPage } from '../components/pages/FormPage';
 import { SearchComponent } from '../components/pages/common/SearchComponent';
 import { LoaderComponent } from '../components/pages/common/LoaderComponent';
+import { MainPage } from '../components/pages/MainPage';
 
 describe('App', () => {
   it('all page', async () => {
@@ -150,5 +151,9 @@ describe('App', () => {
 
     fireEvent.change(getByLabelText(/Title/i), { target: { value: 'New Product' } });
     fireEvent.submit(getByText(/Submit/i));
+  });
+
+  test('main page', () => {
+    render(<MainPage />);
   });
 });
