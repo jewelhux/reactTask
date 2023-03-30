@@ -1,0 +1,68 @@
+.nav-top {
+  display: flex;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.search-bar {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.item-card {
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 5px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.img-container {
+  max-width: 100%;
+  height: 200px;
+}
+
+.img-container img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.item-description {
+  height: 100px;
+  overflow: hidden;
+}
+
+.form-add-btn {
+  margin-top: 10px;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-element {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.radio-element {
+  display: flex;
+  align-items: center;
+}
+
+.color-red {
+  color: red;
+  font-weight: 700;
+}
