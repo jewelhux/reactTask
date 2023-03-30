@@ -18,8 +18,7 @@ export function FormInputComponent(props: FormAddProps) {
   } = useForm<InputsForm>({ reValidateMode: 'onSubmit' });
 
   const onSubmit = (data: InputsForm) => {
-    console.log(data);
-    const product = {
+    props.onAddCard({
       id: Math.trunc(Math.random() * 1e8),
       title: data.inputTitle,
       image: URL.createObjectURL(data.inputImage[0]),
@@ -27,9 +26,7 @@ export function FormInputComponent(props: FormAddProps) {
       condition: data.inputСondition,
       category: data.inputCategory,
       rules: false,
-    };
-
-    props.onAddCard(product);
+    });
     reset();
   };
 
