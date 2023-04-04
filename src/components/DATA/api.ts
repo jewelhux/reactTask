@@ -3,4 +3,11 @@ async function getProductList() {
   return await res.json();
 }
 
-export { getProductList };
+async function getSearchProduct(name: string) {
+  const res: Response = await fetch(
+    `https://mock-server-api-hcqxe00fv-jik789.vercel.app/catalog?title_like=${name}`
+  );
+  return await res.json();
+}
+
+export { getProductList, getSearchProduct };

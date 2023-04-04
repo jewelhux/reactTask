@@ -6,6 +6,10 @@ type FormAddProps = {
   onAddCard: (newCard: ICard) => void;
 };
 
+type InputProps = {
+  setInput: (text: string) => void;
+};
+
 type ProductProps = {
   product: ICard;
 };
@@ -19,4 +23,4 @@ type InputsForm = {
   inputRules: boolean;
 };
 
-export type { HeadProps, ProductProps, FormAddProps, InputsForm };
+export type { HeadProps, ProductProps, FormAddProps, InputsForm, InputProps };
