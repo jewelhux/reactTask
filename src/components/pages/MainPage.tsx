@@ -10,13 +10,15 @@ export function MainPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     const fetchProduct = async () => {
       const allProsucts = await getProductList();
       setProducts(allProsucts);
+      setLoading(false);
     };
 
     fetchProduct();
-    setLoading(false);
   }, []);
 
   return (
