@@ -17,13 +17,19 @@ export function SearchComponent({ setInput }: InputProps) {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     storageChange(event.target.value);
-    setInput(event.target.value);
+    localStorage.setItem('jikSearch', event.target.value || '');
+  };
+
+  const handleInputSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    localStorage.setItem('jikSearch', storage || '');
+    setInput(storage);
   };
 
   return (
-    <div className="search-bar">
+    <form className="search-bar" onSubmit={handleInputSubmit}>
       <input type="text" value={storage} onChange={handleInputChange}></input>
-      <button>Search by title</button>
-    </div>
+      <button onClick={handleInputSubmit}>Search by title</button>
+    </form>
   );
 }
