@@ -10,4 +10,11 @@ async function getSearchProduct(name: string) {
   return await res.json();
 }
 
-export { getProductList, getSearchProduct };
+async function getProductForId(id: number) {
+  const res: Response = await fetch(
+    `https://mock-server-api-hcqxe00fv-jik789.vercel.app/catalog/${id}`
+  );
+  return await res.json();
+}
+
+export { getProductList, getSearchProduct, getProductForId };

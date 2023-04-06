@@ -10,6 +10,12 @@ type InputProps = {
   setInput: (text: string) => void;
 };
 
+type ModalProps = {
+  active: boolean;
+  setActive: (vision: boolean) => void;
+  cardId: number;
+};
+
 type ProductProps = {
   product: ICard;
 };
@@ -23,4 +29,4 @@ type InputsForm = {
   inputRules: boolean;
 };
 
-export type { HeadProps, ProductProps, FormAddProps, InputsForm, InputProps };
+export type { HeadProps, ProductProps, FormAddProps, InputsForm, InputProps, ModalProps };

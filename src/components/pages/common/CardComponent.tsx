@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProductProps } from '../../utils/type';
+import { ModaCardComponent } from './ModaCardComponent';
 
 export function CardComponent(props: ProductProps) {
   const item = props.product;
+  const [modalActive, setModalActive] = useState(false);
+
   return (
-    <div className="item-card">
-      <h2>{item.title}</h2>
-      <div className="item-description">
-        <p>Category: {item.category}</p>
-        <p>Condition: {item.condition}</p>
-        <p>Date: {item.date}</p>
+    <>
+      <div className="item-card" onClick={() => setModalActive(true)}>
+        <h2>{item.title}</h2>
+        <div className="img-container">
+          <img src={item.image} alt="card-img" />
+        </div>
       </div>
-      <div className="img-container">
-        <img src={item.image} alt="card-img" />
-      </div>
-    </div>
+
+      <ModaCardComponent
+        active={modalActive}
+        setActive={setModalActive}
+        cardId={item.id ? item.id : NaN}
+      ></ModaCardComponent>
+    </>
   );
 }
