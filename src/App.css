@@ -1,0 +1,116 @@
+.nav-top {
+  display: flex;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.search-bar {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.item-card {
+  cursor: pointer;
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 5px;
+  width: 300px;
+  display: flex;
+  gap: 50px;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.img-container {
+  max-width: 100%;
+  height: 200px;
+}
+
+.img-container img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.item-description {
+  height: 100px;
+  overflow: hidden;
+}
+
+.form-add-btn {
+  margin-top: 10px;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  padding: 100px 50px;
+  margin: auto;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-element {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.radio-element {
+  display: flex;
+  align-items: center;
+}
+
+.color-red {
+  color: red;
+  font-weight: 700;
+}
+
+.modal-card {
+  display: none;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card-content {
+  padding: 60px;
+  border-radius: 10px;
+  background-color: white;
+  position: relative;
+}
+
+.modal-active {
+  display: flex;
+}
+
+.close-modal {
+  font-size: 30px;
+  line-height: 0.8;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-weight: bold;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
