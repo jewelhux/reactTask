@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import App from '../App';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import { CardComponent } from '../components/pages/common/CardComponent';
 import {
@@ -20,33 +20,39 @@ import { FormPage } from '../components/pages/FormPage';
 import { SearchComponent } from '../components/pages/common/SearchComponent';
 import { LoaderComponent } from '../components/pages/common/LoaderComponent';
 import { MainPage } from '../components/pages/MainPage';
+import { ModaCardComponent } from '../components/pages/common/ModaCardComponent';
+import { getProductForId, getProductList, getSearchProduct } from '../components/DATA/api';
+import { vi } from 'vitest';
+import { IProducts } from '../components/utils/interfaces';
 
 describe('App', () => {
-  it('all page', async () => {
-    await act(() => {
-      render(
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      );
-    });
+  beforeEach(() => {
+    global.fetch = vi.fn();
   });
 
-  it('not found page', async () => {
-    await act(() => {
-      render(<NotFoundPage />);
-    });
+  afterEach(() => {
+    vi.resetAllMocks();
   });
 
-  it('about page', async () => {
-    await act(() => {
-      render(<AboutPage />);
-    });
+  test('all page', async () => {
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <App />
+      </MemoryRouter>
+    );
+  });
+
+  it('not found page', () => {
+    render(<NotFoundPage />);
+  });
+
+  it('about page', () => {
+    render(<AboutPage />);
   });
 
   it('one card', async () => {
     await act(() => {
-      const testProduct = {
+      const data = {
         id: Math.trunc(Math.random() * 1e8),
         title: 'Test name',
         image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
@@ -55,7 +61,14 @@ describe('App', () => {
         condition: 'new',
         category: 'car',
       };
-      render(<CardComponent product={testProduct}></CardComponent>);
+
+      global.fetch = vi.fn().mockImplementation(() =>
+        Promise.resolve({
+          json: () => data,
+        })
+      );
+
+      render(<CardComponent product={data}></CardComponent>);
     });
   });
 
@@ -138,7 +151,13 @@ describe('App', () => {
   });
 
   test('search component', () => {
-    render(<SearchComponent />);
+    render(
+      <SearchComponent
+        setInput={function (text: string): void {
+          throw new Error(`Function not implemented: ${text}`);
+        }}
+      />
+    );
   });
 
   test('loader component', () => {
@@ -153,7 +172,78 @@ describe('App', () => {
     fireEvent.submit(getByText(/Submit/i));
   });
 
-  test('main page', () => {
-    render(<MainPage />);
+  it('main page', async () => {
+    await act(() => {
+      const data: IProducts[] = [];
+
+      global.fetch = vi.fn().mockImplementation(() =>
+        Promise.resolve({
+          json: () => data,
+        })
+      );
+
+      render(<MainPage />);
+    });
+  });
+
+  it('modal card', async () => {
+    await act(() => {
+      const data = {};
+
+      global.fetch = vi.fn().mockImplementation(() =>
+        Promise.resolve({
+          json: () => data,
+        })
+      );
+
+      render(
+        <ModaCardComponent
+          active={false}
+          setActive={function (vision: boolean): void {
+            throw new Error(`Function not implemented: ${vision}`);
+          }}
+          cardId={1}
+        />
+      );
+    });
+  });
+
+  test('api getProductList', async () => {
+    const data: IProducts[] = [];
+
+    global.fetch = vi.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => data,
+      })
+    );
+
+    const cards = await getProductList();
+    expect(Array.isArray(cards)).toBe(true);
+  });
+
+  test('api getSearchProduct', async () => {
+    const data: IProducts[] = [];
+
+    global.fetch = vi.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => data,
+      })
+    );
+
+    const card = await getSearchProduct('123456');
+    expect(card).toBe(data);
+  });
+
+  test('api getProductForId', async () => {
+    const data = {};
+
+    global.fetch = vi.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => data,
+      })
+    );
+
+    const card = await getProductForId(99);
+    expect(card).toBe(data);
   });
 });
