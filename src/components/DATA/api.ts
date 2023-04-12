@@ -1,20 +1,19 @@
-async function getProductList() {
-  const res: Response = await fetch('https://mock-server-api-hcqxe00fv-jik789.vercel.app/catalog');
-  return await res.json();
-}
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ICard } from '../utils/interfaces';
 
-async function getSearchProduct(name: string) {
-  const res: Response = await fetch(
-    `https://mock-server-api-hcqxe00fv-jik789.vercel.app/catalog?title_like=${name}`
-  );
-  return await res.json();
-}
+const api = createApi({
+  reducerPath: 'JikApi',
+  tagTypes: ['Catalog'],
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://mock-server-api-hcqxe00fv-jik789.vercel.app/' }),
+  endpoints: (builder) => ({
+    searchProduct: builder.query<ICard[], string>({
+      query: (name: string) => `catalog?title_like=${name}`,
+    }),
+    productForId: builder.query<ICard, number>({
+      query: (id: number) => `catalog/${id}`,
+    }),
+  }),
+});
 
-async function getProductForId(id: number) {
-  const res: Response = await fetch(
-    `https://mock-server-api-hcqxe00fv-jik789.vercel.app/catalog/${id}`
-  );
-  return await res.json();
-}
-
-export { getProductList, getSearchProduct, getProductForId };
+export const { useProductForIdQuery, useSearchProductQuery } = api;
+export { api };

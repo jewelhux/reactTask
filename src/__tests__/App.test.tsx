@@ -14,16 +14,15 @@ import {
 import { NotFoundPage } from '../components/pages/NotFoundPage';
 import { AboutPage } from '../components/pages/AboutPage';
 import { targetRadio } from '../components/utils/utils';
-import { fn } from 'jest-mock';
 import { FormInputComponent } from '../components/pages/FormComponent/FormInputComponent';
 import { FormPage } from '../components/pages/FormPage';
 import { SearchComponent } from '../components/pages/common/SearchComponent';
 import { LoaderComponent } from '../components/pages/common/LoaderComponent';
 import { MainPage } from '../components/pages/MainPage';
 import { ModaCardComponent } from '../components/pages/common/ModaCardComponent';
-import { getProductForId, getProductList, getSearchProduct } from '../components/DATA/api';
 import { vi } from 'vitest';
 import { IProducts } from '../components/utils/interfaces';
+import { useProductForIdQuery, useSearchProductQuery } from '../components/DATA/api';
 
 describe('App', () => {
   beforeEach(() => {
@@ -151,13 +150,7 @@ describe('App', () => {
   });
 
   test('search component', () => {
-    render(
-      <SearchComponent
-        setInput={function (text: string): void {
-          throw new Error(`Function not implemented: ${text}`);
-        }}
-      />
-    );
+    render(<SearchComponent />);
   });
 
   test('loader component', () => {
@@ -165,8 +158,7 @@ describe('App', () => {
   });
 
   test('form input component', () => {
-    const onAddCard = fn();
-    const { getByLabelText, getByText } = render(<FormInputComponent onAddCard={onAddCard} />);
+    const { getByLabelText, getByText } = render(<FormInputComponent />);
 
     fireEvent.change(getByLabelText(/Title/i), { target: { value: 'New Product' } });
     fireEvent.submit(getByText(/Submit/i));
@@ -208,21 +200,8 @@ describe('App', () => {
     });
   });
 
-  test('api getProductList', async () => {
-    const data: IProducts[] = [];
-
-    global.fetch = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => data,
-      })
-    );
-
-    const cards = await getProductList();
-    expect(Array.isArray(cards)).toBe(true);
-  });
-
   test('api getSearchProduct', async () => {
-    const data: IProducts[] = [];
+    const awaitData: IProducts[] = [];
 
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
@@ -230,12 +209,12 @@ describe('App', () => {
       })
     );
 
-    const card = await getSearchProduct('123456');
-    expect(card).toBe(data);
+    const { data } = useSearchProductQuery('123456');
+    expect(data).toBe(awaitData);
   });
 
   test('api getProductForId', async () => {
-    const data = {};
+    const awaitData = {};
 
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
@@ -243,7 +222,7 @@ describe('App', () => {
       })
     );
 
-    const card = await getProductForId(99);
-    expect(card).toBe(data);
+    const { data } = useProductForIdQuery(99);
+    expect(data).toBe(awaitData);
   });
 });

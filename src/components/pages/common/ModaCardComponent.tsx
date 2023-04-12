@@ -1,29 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getProductForId } from '../../DATA/api';
-import { ICard } from '../../utils/interfaces';
+import { useProductForIdQuery } from '../../DATA/api';
 import { ModalProps } from '../../utils/type';
 import { LoaderComponent } from './LoaderComponent';
 
 export function ModaCardComponent({ active, setActive, cardId }: ModalProps) {
-  const [card, setCard] = useState<ICard>();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-
-    const fetchProduct = async () => {
-      try {
-        const currentCard = await getProductForId(cardId);
-        setCard(currentCard);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchProduct();
-  }, [cardId]);
-
+  const { isLoading, data } = useProductForIdQuery(cardId);
   return (
     <div
       className={active ? 'modal-active modal-card' : 'modal-card'}
@@ -33,18 +13,18 @@ export function ModaCardComponent({ active, setActive, cardId }: ModalProps) {
         <p className="close-modal" onClick={() => setActive(false)}>
           X
         </p>
-        {loading || card === undefined ? (
+        {isLoading || data === undefined ? (
           <LoaderComponent />
         ) : (
           <>
-            <h2 className="p-modal">{card.title}</h2>
+            <h2 className="p-modal">{data.title}</h2>
             <div className="item-description">
-              <p className="p-modal">Category: {card.category}</p>
-              <p className="p-modal">Condition: {card.condition}</p>
-              <p className="p-modal">Date: {card.date}</p>
+              <p className="p-modal">Category: {data.category}</p>
+              <p className="p-modal">Condition: {data.condition}</p>
+              <p className="p-modal">Date: {data.date}</p>
             </div>
             <div className="img-container">
-              <img src={card.image} alt="card-img" />
+              <img src={data.image} alt="card-img" />
             </div>
           </>
         )}
