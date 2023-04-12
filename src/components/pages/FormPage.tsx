@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
-import { ICard } from '../utils/interfaces';
+import React from 'react';
+import { useAppSelector } from '../../store/store';
 import { CardComponent } from './common/CardComponent';
 import { FormInputComponent } from './FormComponent/FormInputComponent';
 
 export function FormPage() {
-  const [products, setProducts] = useState<ICard[]>([]);
-
-  const onAddCard = (newCard: ICard) => {
-    setProducts([...products, newCard]);
-  };
+  const formCardList = useAppSelector((state) => state.formCardList);
 
   return (
     <>
       <h2>Current page: FormPage</h2>
-      <FormInputComponent onAddCard={onAddCard} />
+      <FormInputComponent />
       <div className="product-list">
-        {products.map((product) => (
+        {formCardList.map((product) => (
           <CardComponent key={product.id} product={product} />
         ))}
       </div>

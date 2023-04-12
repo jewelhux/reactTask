@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import inputNameReducer from './features/inputNameSlice';
+import inputNameSliceReducer from './features/inputNameSlice';
+import FormSliceReducer from './features/FormSlice';
 
 export const store = configureStore({
-  reducer: { inputName: inputNameReducer },
+  reducer: { inputName: inputNameSliceReducer, formCardList: FormSliceReducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

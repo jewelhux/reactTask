@@ -3,7 +3,7 @@ import { ICard } from './interfaces';
 type HeadProps = Record<string, never>;
 
 type FormAddProps = {
-  onAddCard: (newCard: ICard) => void;
+  onAddCard: () => void;
 };
 
 type InputProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormAddProps, InputsForm } from '../../utils//type';
+import { InputsForm } from '../../utils//type';
 import {
   validateCategory,
   validateCondition,
@@ -8,8 +8,12 @@ import {
   validateName,
 } from '../../utils/validates';
 import { useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../../store/store';
+import { addCardToList } from '../../../store/features/FormSlice';
 
-export function FormInputComponent(props: FormAddProps) {
+export function FormInputComponent() {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -18,15 +22,18 @@ export function FormInputComponent(props: FormAddProps) {
   } = useForm<InputsForm>({ reValidateMode: 'onSubmit' });
 
   const onSubmit = (data: InputsForm) => {
-    props.onAddCard({
-      id: Math.trunc(Math.random() * 1e8),
-      title: data.inputTitle,
-      image: URL.createObjectURL(data.inputImage[0]),
-      date: data.inputDate,
-      condition: data.inputСondition,
-      category: data.inputCategory,
-      rules: data.inputRules,
-    });
+    dispatch(
+      addCardToList({
+        id: Math.trunc(Math.random() * 1e8),
+        title: data.inputTitle,
+        image: URL.createObjectURL(data.inputImage[0]),
+        date: data.inputDate,
+        condition: data.inputСondition,
+        category: data.inputCategory,
+        rules: data.inputRules,
+      })
+    );
+
     reset();
   };
 

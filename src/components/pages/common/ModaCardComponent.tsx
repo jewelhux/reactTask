@@ -37,11 +37,11 @@ export function ModaCardComponent({ active, setActive, cardId }: ModalProps) {
           <LoaderComponent />
         ) : (
           <>
-            <h2>{card.title}</h2>
+            <h2 className="p-modal">{card.title}</h2>
             <div className="item-description">
-              <p>Category: {card.category}</p>
-              <p>Condition: {card.condition}</p>
-              <p>Date: {card.date}</p>
+              <p className="p-modal">Category: {card.category}</p>
+              <p className="p-modal">Condition: {card.condition}</p>
+              <p className="p-modal">Date: {card.date}</p>
             </div>
             <div className="img-container">
               <img src={card.image} alt="card-img" />

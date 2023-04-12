@@ -15,11 +15,15 @@ export function CardComponent(props: ProductProps) {
         </div>
       </div>
 
-      <ModaCardComponent
-        active={modalActive}
-        setActive={setModalActive}
-        cardId={item.id ? item.id : NaN}
-      ></ModaCardComponent>
+      {item.id && item.id > 10 ? (
+        <></>
+      ) : (
+        <ModaCardComponent
+          active={modalActive}
+          setActive={setModalActive}
+          cardId={item.id ? item.id : NaN}
+        ></ModaCardComponent>
+      )}
     </>
   );
 }
