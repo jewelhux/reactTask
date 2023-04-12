@@ -1,35 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { InputProps } from '../../utils/type';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { inputNameWrite } from '../../../store/features/inputNameSlice';
 
-export function SearchComponent({ setInput }: InputProps) {
-  const [storage, storageChange] = useState(localStorage.getItem('jikSearch') ?? '');
-  const storageRef = useRef<string>();
-
-  useEffect(() => {
-    storageRef.current = storage;
-  }, [storage]);
-
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('jikSearch', storageRef.current || '');
-    };
-  }, []);
+export function SearchComponent() {
+  const textInputSelector = useAppSelector((state) => state.inputName);
+  const dispatch = useAppDispatch();
+  const [storage, storageChange] = useState(textInputSelector.value);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     storageChange(event.target.value);
-    localStorage.setItem('jikSearch', event.target.value || '');
   };
 
   const handleInputSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    localStorage.setItem('jikSearch', storage || '');
-    setInput(storage);
+    dispatch(inputNameWrite(storage));
   };
 
   return (
     <form className="search-bar" onSubmit={handleInputSubmit}>
       <input type="text" value={storage} onChange={handleInputChange}></input>
-      <button onClick={handleInputSubmit}>Search by title</button>
+      <button type="submit">Search by title</button>
     </form>
   );
 }

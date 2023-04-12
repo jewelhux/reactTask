@@ -4,18 +4,19 @@ import { ICard } from '../utils/interfaces';
 import { LoaderComponent } from './common/LoaderComponent';
 import { CardComponent } from './common/CardComponent';
 import { getSearchProduct } from '../DATA/api';
+import { useAppSelector } from '../../store/store';
 
 export function MainPage() {
   const [products, setProducts] = useState<ICard[]>([]);
   const [loading, setLoading] = useState(true);
-  const [inputText, setInputText] = useState(localStorage.getItem('jikSearch') ?? '');
+  const textInputSelector = useAppSelector((state) => state.inputName);
 
   useEffect(() => {
     setLoading(true);
 
     const fetchProduct = async () => {
       try {
-        const searchProsucts = await getSearchProduct(inputText);
+        const searchProsucts = await getSearchProduct(textInputSelector.value);
         setProducts(searchProsucts);
         setLoading(false);
       } catch (err) {
@@ -24,12 +25,12 @@ export function MainPage() {
     };
 
     fetchProduct();
-  }, [inputText]);
+  }, [textInputSelector.value]);
 
   return (
     <div>
       <h2>Current page: MainPage</h2>
-      <SearchComponent setInput={setInputText} />
+      <SearchComponent />
       <div className="product-list">
         {loading ? (
           <LoaderComponent />
