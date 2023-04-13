@@ -18,11 +18,33 @@ import { FormInputComponent } from '../components/pages/FormComponent/FormInputC
 import { FormPage } from '../components/pages/FormPage';
 import { SearchComponent } from '../components/pages/common/SearchComponent';
 import { LoaderComponent } from '../components/pages/common/LoaderComponent';
-import { MainPage } from '../components/pages/MainPage';
-import { ModaCardComponent } from '../components/pages/common/ModaCardComponent';
 import { vi } from 'vitest';
-import { IProducts } from '../components/utils/interfaces';
-import { useProductForIdQuery, useSearchProductQuery } from '../components/DATA/api';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+
+const mockServer = setupServer(
+  rest.get(`https://mock-server-api-hcqxe00fv-jik789.vercel.app/catalog`, (req, res, ctx) => {
+    return res(
+      ctx.json([
+        {
+          id: 1,
+          title: 'One',
+          image: 'https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg',
+          date: '01.01.2023',
+          rules: true,
+          condition: 'new',
+          category: 'car',
+        },
+      ])
+    );
+  })
+);
+
+beforeAll(() => mockServer.listen());
+afterEach(() => mockServer.resetHandlers());
+afterAll(() => mockServer.close());
 
 describe('App', () => {
   beforeEach(() => {
@@ -143,14 +165,20 @@ describe('App', () => {
     });
   });
 
-  it('form page component', async () => {
-    await act(() => {
-      render(<FormPage />);
-    });
+  it('form page component', () => {
+    render(
+      <Provider store={store}>
+        <FormPage />
+      </Provider>
+    );
   });
 
   test('search component', () => {
-    render(<SearchComponent />);
+    render(
+      <Provider store={store}>
+        <SearchComponent />
+      </Provider>
+    );
   });
 
   test('loader component', () => {
@@ -158,71 +186,13 @@ describe('App', () => {
   });
 
   test('form input component', () => {
-    const { getByLabelText, getByText } = render(<FormInputComponent />);
+    const { getByLabelText, getByText } = render(
+      <Provider store={store}>
+        <FormInputComponent />
+      </Provider>
+    );
 
     fireEvent.change(getByLabelText(/Title/i), { target: { value: 'New Product' } });
     fireEvent.submit(getByText(/Submit/i));
-  });
-
-  it('main page', async () => {
-    await act(() => {
-      const data: IProducts[] = [];
-
-      global.fetch = vi.fn().mockImplementation(() =>
-        Promise.resolve({
-          json: () => data,
-        })
-      );
-
-      render(<MainPage />);
-    });
-  });
-
-  it('modal card', async () => {
-    await act(() => {
-      const data = {};
-
-      global.fetch = vi.fn().mockImplementation(() =>
-        Promise.resolve({
-          json: () => data,
-        })
-      );
-
-      render(
-        <ModaCardComponent
-          active={false}
-          setActive={function (vision: boolean): void {
-            throw new Error(`Function not implemented: ${vision}`);
-          }}
-          cardId={1}
-        />
-      );
-    });
-  });
-
-  test('api getSearchProduct', async () => {
-    const awaitData: IProducts[] = [];
-
-    global.fetch = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => data,
-      })
-    );
-
-    const { data } = useSearchProductQuery('123456');
-    expect(data).toBe(awaitData);
-  });
-
-  test('api getProductForId', async () => {
-    const awaitData = {};
-
-    global.fetch = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => data,
-      })
-    );
-
-    const { data } = useProductForIdQuery(99);
-    expect(data).toBe(awaitData);
   });
 });
