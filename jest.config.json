@@ -1,0 +1,16 @@
+{
+  "testEnvironment": "jsdom",
+  "moduleNameMapper": {
+      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/__mocks__/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+  },
+  "coverageReporters": [
+      "text",
+      "lcov"
+  ],
+  "coverageDirectory": ".",
+  "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+  }
+}
