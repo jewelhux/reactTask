@@ -13,3 +13,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Provider>
   </BrowserRouter>
 );
+
+// ReactDOM.hydrateRoot(
+//   document.getElementById('root') as HTMLElement,
+//   <BrowserRouter>
+//     <Provider store={store}>
+//       <App />
+//     </Provider>
+//   </BrowserRouter>
+// );
