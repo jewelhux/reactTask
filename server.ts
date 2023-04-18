@@ -1,14 +1,12 @@
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 
-const PORT = process.env.PORT || 3000;
-const server = express();
-const directory = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-async function startServer() {
+async function createServer() {
   const app = express();
 
   const vite = await createViteServer({
@@ -17,32 +15,34 @@ async function startServer() {
   });
   app.use(vite.middlewares);
 
-  app.use('*', async (req, res) => {
+  app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
 
-    let template = fs.readFileSync(path.resolve(directory, 'index.html'), 'utf-8');
-    template = await vite.transformIndexHtml(url, template);
-    const html = template.split(`<!--ssr-inject-->`);
+    try {
+      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+      template = await vite.transformIndexHtml(url, template);
+      const html = template.split(`<!--ssr-inject-->`);
 
-    const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
+      const { render } = await vite.ssrLoadModule('/src/enterServer.tsx');
 
-    const { pipe } = await render(url, {
-      onShellReady() {
-        res.write(html[0]);
-        pipe(res);
-      },
-      onAllReady() {
-        res.write(html[0] + html[1]);
-        res.end();
-      },
-    });
+      const { pipe } = await render(url, {
+        onShellReady() {
+          res.write(html[0]);
+          pipe(res);
+        },
+        onAllReady() {
+          res.write(html[0] + html[1]);
+          res.end();
+        },
+      });
+    } catch (e) {
+      const err = e as Error;
+      vite.ssrFixStacktrace(err);
+      next(err);
+    }
   });
+
+  app.listen(3000, () => console.log('http://localhost:3000/'));
 }
 
-server.use(express.static(path.resolve(directory, '.', 'dist'), { maxAge: '30d' }));
-
-server.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
-
-startServer();
+createServer();
