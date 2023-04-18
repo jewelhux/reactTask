@@ -4,45 +4,39 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PORT = process.env.PORT || 3000;
+const server = express();
+const directory = path.dirname(fileURLToPath(import.meta.url));
+const viteServer = await createViteServer({
+  server: { middlewareMode: true },
+  appType: 'custom',
+});
 
-async function createServer() {
-  const app = express();
+async function startServer() {
+  server.use(viteServer.middlewares);
 
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'custom',
-  });
-  app.use(vite.middlewares);
+  server.use('*', async (req, res) => {
+    const data = await viteServer.transformIndexHtml(
+      req.originalUrl,
+      fs.readFileSync(path.resolve(directory, 'index.html'), 'utf-8')
+    );
 
-  app.use('*', async (req, res, next) => {
-    const url = req.originalUrl;
-
-    try {
-      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
-      template = await vite.transformIndexHtml(url, template);
-      const html = template.split(`<!--ssr-inject-->`);
-
-      const { render } = await vite.ssrLoadModule('/src/enterServer.tsx');
-
-      const { pipe } = await render(url, {
-        onShellReady() {
-          res.write(html[0]);
-          pipe(res);
-        },
-        onAllReady() {
-          res.write(html[0] + html[1]);
-          res.end();
-        },
-      });
-    } catch (e) {
-      const err = e as Error;
-      vite.ssrFixStacktrace(err);
-      next(err);
-    }
+    const { render } = await viteServer.ssrLoadModule('/src/enterServer.tsx');
+    const { pipe } = await render(req.originalUrl, {
+      onShellReady() {
+        res.write(data.split(`<!--ssr-inject-->`)[0]);
+        pipe(res);
+      },
+      onAllReady() {
+        res.write(data.split(`<!--ssr-inject-->`)[0] + data.split(`<!--ssr-inject-->`)[1]);
+        res.end();
+      },
+    });
   });
 
-  app.listen(3000, () => console.log('http://localhost:3000/'));
+  server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+  });
 }
 
-createServer();
+startServer();

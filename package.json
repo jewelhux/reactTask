@@ -9,7 +9,6 @@
     "preview": "vite preview",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --outDir dist/server --ssr src/enterServer.tsx",
-    "build:ssr": "npm run build:client && npm run build:server",
     "server": "npx ts-node --esm server.ts",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install",
