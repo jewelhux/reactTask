@@ -14,12 +14,14 @@
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "test": "vitest",
-    "test:cypress": "cypress open",
+    "cypress:panel": "cypress open",
+    "cypress": "npx cypress run --e2e && npx nyc report && npx nyc report --reporter=text-summary",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "express": "^4.18.2",
+    "nyc": "^15.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.8",
@@ -41,6 +43,8 @@
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/coverage-c8": "^0.29.7",
     "cypress": "^12.10.0",
+    "@cypress/code-coverage": "^3.10.4",
+    "@types/cypress__code-coverage": "^3.10.0",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
@@ -61,5 +65,8 @@
     "typescript": "^4.9.3",
     "vite": "^4.2.1",
     "vitest": "^0.29.7"
+  },
+  "nyc": {
+    "reporter": ["html"]
   }
 }

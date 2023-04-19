@@ -1,10 +1,18 @@
 import { defineConfig } from 'cypress';
+import registerCodeCoverageTasks from '@cypress/code-coverage/task';
 
 export default defineConfig({
-  e2e: {
-    setupNodeEvents() {
-      // implement node event listeners here
+  env: {
+    codeCoverage: {
+      exclude: 'cypress/**/*.*',
     },
+  },
+  e2e: {
+    setupNodeEvents(on, config) {
+      registerCodeCoverageTasks(on, config);
+      return config;
+    },
+    baseUrl: 'http://localhost:3000',
   },
 });
 
