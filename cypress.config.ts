@@ -14,12 +14,6 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3000',
   },
+  video: false,
+  pageLoadTimeout: 15000,
 });
-
-// export default defineConfig({
-//   e2e: {
-//     setupNodeEvents(on, config) {
-//       // implement node event listeners here
-//     },
-//   },
-// });

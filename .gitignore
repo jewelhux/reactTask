@@ -27,3 +27,4 @@ dist-ssr
 coverage
 lcov-report
 lcov.info
+.nyc_output
