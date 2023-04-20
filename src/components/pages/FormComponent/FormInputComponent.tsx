@@ -42,6 +42,7 @@ export function FormInputComponent() {
       <label className="form-element">
         Title
         <input
+          className="form-element-title"
           type="text"
           {...register('inputTitle', {
             required: true,
@@ -57,6 +58,7 @@ export function FormInputComponent() {
       <label className="form-element">
         Image
         <input
+          className="form-element-image"
           type="file"
           accept=".jpg, .jpeg, .png"
           {...register('inputImage', {
@@ -71,6 +73,7 @@ export function FormInputComponent() {
       <label className="form-element">
         Start of sales
         <input
+          className="form-element-date"
           type="date"
           {...register('inputDate', {
             required: true,
@@ -86,6 +89,7 @@ export function FormInputComponent() {
       <label className="form-element">
         Category
         <select
+          className="form-element-select"
           {...register('inputCategory', {
             required: true,
             validate: {
@@ -136,6 +140,7 @@ export function FormInputComponent() {
       <label className="form-element">
         Rules accept
         <input
+          className="form-element-checkbox"
           type="checkbox"
           {...register('inputRules', {
             required: true,

@@ -18,7 +18,12 @@ export function SearchComponent() {
 
   return (
     <form className="search-bar" onSubmit={handleInputSubmit}>
-      <input type="text" value={storage} onChange={handleInputChange}></input>
+      <input
+        className="search-bar-input"
+        type="text"
+        value={storage}
+        onChange={handleInputChange}
+      ></input>
       <button type="submit">Search by title</button>
     </form>
   );
